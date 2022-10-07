@@ -1,0 +1,29 @@
+pkgname=n64graphics
+
+pkgver=1.0.1
+pkgrel=1
+pkgdesc="More modern tools for converting to and from N64 image formats."
+arch=('any')
+options=(!lto)
+url="https://github.com/queueRAM/sm64tools"
+license=('none')
+depends=(
+  'capstone'
+  'git'
+)
+source=("git+https://github.com/queueRAM/sm64tools.git"
+        "git+https://github.com/nothings/stb.git")
+sha256sums=('SKIP' 'SKIP')
+
+build() {
+  cd "$srcdir/sm64tools"
+  git submodule init
+  git config submodule.ext/stb.url "$srcdir/stb"
+  git submodule update
+  make n64graphics
+}
+
+package() {
+  install -dm755 "${pkgdir}/usr/bin"
+  cp "$srcdir/sm64tools/n64graphics" "${pkgdir}/usr/bin"
+}

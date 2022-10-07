@@ -1,0 +1,26 @@
+pkgname=HackerSM64
+pkgver=2.1.0
+pkgrel=1
+pkgdesc="Modding-friendly build of Super Mario 64 Decomp"
+arch=('any')
+options=(!lto)
+url="https://github.com/HackerN64/HackerSM64"
+license=('none')
+depends=(
+  'capstone'
+  'git'
+  'mips64-elf-gcc-stage1'
+  'mips64-elf-binutils'
+)
+source=("${pkgname}-${pkgver}.tar.gz::https://github.com/HackerN64/HackerSM64/archive/refs/heads/develop/${pkgver}.zip")
+sha256sums=('478eb8a27a702551f6500524157f5734c40691a9b945357107b8e580ff702065')
+
+package() {
+  export BASEROM_US=~/baserom.us.z64
+  export BASEROM_JP=~/baserom.jp.z64
+
+  cp ${BASEROM_US} "$srcdir/$pkgname-develop-$pkgver/"
+  cp ${BASEROM_JP} "$srcdir/$pkgname-develop-$pkgver/"
+  cd "$srcdir/$pkgname-develop-$pkgver"
+  make LD=mip64-elf-ld
+}
