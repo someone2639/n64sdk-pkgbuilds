@@ -15,12 +15,22 @@ depends=(
 source=("${pkgname}-${pkgver}.tar.gz::https://github.com/HackerN64/HackerSM64/archive/refs/heads/develop/${pkgver}.zip")
 sha256sums=('478eb8a27a702551f6500524157f5734c40691a9b945357107b8e580ff702065')
 
-package() {
+build() {
   export BASEROM_US=~/baserom.us.z64
   export BASEROM_JP=~/baserom.jp.z64
+  if (-f ${BASEROM_US})
+    echo "Please put baserom.us.z64 in ${~}"
+  fi
+  if (-f ${BASEROM_JP})
+    echo "Please put baserom.jp.z64 in ${~}"
+  fi
 
   cp ${BASEROM_US} "$srcdir/$pkgname-develop-$pkgver/"
   cp ${BASEROM_JP} "$srcdir/$pkgname-develop-$pkgver/"
   cd "$srcdir/$pkgname-develop-$pkgver"
   make LD=mip64-elf-ld
+}
+
+package() {
+  
 }

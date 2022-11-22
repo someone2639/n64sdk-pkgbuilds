@@ -1,0 +1,15 @@
+
+pkgname=libpsyq-devel
+pkgver=4.7
+pkgrel=1
+pkgdesc="PSY-Q SDK for PSX Dev"
+arch=('any')
+options=(!lto !strip)
+license=('none')
+source=("psyq.7z::http://psx.arthus.net/sdk/Psy-Q/psyq-4.7-converted-full.7z")
+sha256sums=('d7ecb1c378ab91e27a9b2b9b207123b661d5e33e99ec7bb09e8c8924fede3664')
+
+package() {
+    7z x "psyq.7z" -o"$pkgdir/usr/PSX"
+    chmod -R 755 "$pkgdir/"
+}
